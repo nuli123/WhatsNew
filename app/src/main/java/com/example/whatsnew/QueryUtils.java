@@ -21,6 +21,12 @@ import java.util.List;
 
 public class QueryUtils {
     private final static String LOGGING_TAG="";
+    private static final int READ_TIMEOUT=10000;
+    private static final int CONNECT_TIMEOUT=10000;
+    private static final String KEY_TITLE="webTitle";
+    private static final String KEY_SECTION="sectionName";
+    private static final String KEY_DATE="webPublicationDate";
+    private static final String KEY_URL="webUrl";
 
     private QueryUtils(){};
 
@@ -34,8 +40,8 @@ public class QueryUtils {
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(READ_TIMEOUT /* milliseconds */);
+            urlConnection.setConnectTimeout(CONNECT_TIMEOUT /* milliseconds */);
             urlConnection.connect();
             if(urlConnection.getResponseCode()==HttpURLConnection.HTTP_OK){
                 inputStream = urlConnection.getInputStream();
@@ -107,11 +113,18 @@ public class QueryUtils {
             JSONArray results  = response.getJSONArray("results");
             for(int i=0;i<results.length();i++){
                 JSONObject newsJson = results.getJSONObject(i);
-                String category = newsJson.getString("sectionName");
-                String title = newsJson.getString("webTitle");
-                String date = newsJson.getString("webPublicationDate");
-                String url  = newsJson.getString("webUrl");
-                newsList.add(new News(title, category, date,url));
+                String category = newsJson.getString(KEY_SECTION);
+                String title = newsJson.getString(KEY_TITLE);
+                String date = newsJson.getString(KEY_DATE);
+                String url  = newsJson.getString(KEY_URL);
+                JSONArray tags = newsJson.getJSONArray("tags");
+                String author = null;
+                if(tags.length()!=0){
+                    author = tags.getJSONObject(0).getString(KEY_TITLE);
+                } else {
+                    author = "No Author";
+                }
+                newsList.add(new News(title, category, date,url, author));
             }
 
         } catch (JSONException e) {

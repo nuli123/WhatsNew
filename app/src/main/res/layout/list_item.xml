@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@android:color/darker_gray">
+    android:background="@color/list_item_background">
 
     <TextView
         android:layout_width="match_parent"
@@ -19,19 +19,18 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/ListItemText"
             android:id="@+id/category"
-            android:textSize="12sp"
             tools:text="Politics"/>
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            style="@style/ListItemText"
+            android:id="@+id/author"
+            tools:text="William White"/>
+
+        <TextView
+            style="@style/ListItemText"
             android:id="@+id/date"
-            android:textSize="12sp"
             tools:text="2020-06-03"/>
     </LinearLayout>
 

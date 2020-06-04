@@ -25,10 +25,24 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<News>> {
     private final static String LOGGING_TAG="Main Activity";
-    private final static String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search?q=debate&tag=politics/politics&from-date=2019-01-01&api-key=f8592cfc-0b89-4253-b777-d33f04633dc0";
+    private final static String GUARDIAN_REQUEST_URL_SCHEME="https";
+    private final static String GUARDIAN_REQUEST_URL_AUTHORITY="content.guardianapis.com";
+    private final static String GUARDIAN_REQUEST_URL_PATH="search";
     private static final int NEWS_LOADER_ID = 1;
     private NewsAdapter mAdapter;
 
+    private static String getRequestUrl(){
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme(GUARDIAN_REQUEST_URL_SCHEME)
+                .authority(GUARDIAN_REQUEST_URL_AUTHORITY)
+                .appendPath(GUARDIAN_REQUEST_URL_PATH)
+                .appendQueryParameter("q","debate")
+                .appendQueryParameter("tag","politics/politics")
+                .appendQueryParameter("show-tags", "contributor")
+                .appendQueryParameter("api-key","f8592cfc-0b89-4253-b777-d33f04633dc0");
+        String url = builder.build().toString();
+        return url;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<ArrayList<News>> onCreateLoader(int id, @Nullable Bundle args) {
         Log.i(LOGGING_TAG, "onCreatedLoader() is called");
-        return new NewsLoader(MainActivity.this, GUARDIAN_REQUEST_URL );
+        return new NewsLoader(MainActivity.this, getRequestUrl()/*GUARDIAN_REQUEST_URL*/ );
     }
 
     @Override
