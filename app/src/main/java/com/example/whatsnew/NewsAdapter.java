@@ -33,8 +33,22 @@ public class NewsAdapter extends ArrayAdapter<News> {
         category.setText(news.getCategory());
 
         TextView date = (TextView) listView.findViewById(R.id.date);
-        date.setText(news.getDate());
+        date.setText(formatDate(news.getDate()));
 
         return listView;
+    }
+
+
+    /**
+     * format the date into MM DD YYYY HH:SS
+     */
+    private String formatDate(String rawDate){
+        if(rawDate==null){
+            return null;
+        }
+        String [] parts = rawDate.split("T");
+        String date = parts[0];
+        String time = parts[1].replace("Z","");
+        return date+" "+time;
     }
 }

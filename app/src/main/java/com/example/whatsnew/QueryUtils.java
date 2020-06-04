@@ -111,7 +111,7 @@ public class QueryUtils {
                 String title = newsJson.getString("webTitle");
                 String date = newsJson.getString("webPublicationDate");
                 String url  = newsJson.getString("webUrl");
-                newsList.add(new News(category, title, date,url));
+                newsList.add(new News(title, category, date,url));
             }
 
         } catch (JSONException e) {
