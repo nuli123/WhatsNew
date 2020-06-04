@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WhatsNew</string>
+
+    <string name="no_news">Hello there, no news found!</string>
+</resources>
